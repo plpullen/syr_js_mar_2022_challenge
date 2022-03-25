@@ -4,7 +4,7 @@
 
 // [Medium] Check to see that a given 9x9 matrix of digits contains the
 // digits 1-9 once and only once in each row
-const sudokuRowChecker = (matrix) => {};
+// const sudokuRowChecker = (matrix) => {};
 
 // [Hard] Check to see that a given 9x9 matrix of digits contains the
 // digits 1-9 once and only once in each row, column, and 3x3 square
@@ -17,7 +17,7 @@ module.exports = {
   sudokuChecker,
 };
 
-//possible tests for Easy
+//Brainstorming possible tests for Easy
 //1. test that there are 9 digits/indexes
 //2. test that the sum of them all is 45
 //3. test that they are all unique and each is less than 10
@@ -37,7 +37,7 @@ let counter2 = 0
 let rowCounter = 0
 let columns
 
-//all tests wrapped into 1 function call
+//EASY - all tests wrapped into 1 function call
 function uniqueDigits(someArray){
 
 
@@ -75,14 +75,14 @@ counter1=0
 counter2=0
 }
 
-//RUN THE TESTS ON THE TEST ARRAY
+//RUN THE EASY TESTS ON THE TEST ARRAY
 //uniqueDigits(numArray)
 
 const numArrays = [
     [1,2,3,4,5,6,7,8,9],
     [2,3,4,5,6,7,8,9,1],
     [3,4,5,6,7,8,9,1,2],
-    [4,5,6,7,8,9,1,2,3]
+    [4,5,6,7,8,9,1,2,3],
     [5,6,7,8,9,1,2,3,4],
     [6,7,8,9,1,2,3,4,5],
     [7,8,9,1,2,3,4,5,6],
@@ -90,7 +90,7 @@ const numArrays = [
     [9,1,2,3,4,5,6,7,8],
 ]
 
-//tests for Medium
+//Brainstorming tests for Medium
 //in each row only the numbers 1-9 can be used
 //in each row each number can be used only once
 //in each row there must be 9 numbers
@@ -99,13 +99,18 @@ const numArrays = [
 //for each array, I want to test it, and, if it fails, print out an error with the number of the array
 //else if the error count is 0 I want it to print a success message
 
-//RUN THE TESTS ON EACH ARRAY IN THE ARRAY
-// numArrays.forEach(e => {
-//     console.log("Row " + (numArrays.indexOf(e)+1))
-//     uniqueDigits(e)
-// })
+//MEDIUM - RUN THE TESTS ON EACH ARRAY IN THE ARRAY
+function sudokuRowChecker(anArray){
+anArray.forEach(e => {
+    console.log("Row " + (numArrays.indexOf(e)+1))
+    uniqueDigits(e)
+})
+}
+// TEST MEDIUM FUNCTION
+// sudokuRowChecker(numArrays)
 
-//tests for Medium+
+
+//Brainstorming tests for creating and testing columns
 //construct new arrays from the columns of the given arrays and figure out if 
 //all the new arrays pass the tests
 //input array of arrays
@@ -119,34 +124,28 @@ const numArrays = [
 //and for each index [i] within that, so long as it equals i, push the number at that index into the new array
 //make newArray.length=9
 
+
 //CREATE THE NEW ARRAYS
-const arrayCreator = inputArray => {
+const arrayCreator = inputArray => { //creating the arrays for the columns
     columns = [...Array(9)].map(e => Array(0))
     for(let i = 0; i < inputArray.length; i++){
         for(let j = 0; j < inputArray[i].length; j++){
             columns[j].push(inputArray[i][j]) 
-            //or columns[j].reduce((...columns[j],inputArray[i][j]),[])
         }
     }
-    console.log(columns)
+    return columns
 }
 
-//var myGrid = [...Array(6)].map(e => Array(6));
-
-// var myData = [["name1", 34.1, 43.1, 55.2], ["name2", 5.3, 23.6, 40.9], ["name3", 43.5, 77.8, 22.4]],
-//     arrayTitle = myData.map(function(x) {
-//         return .push(x[0]);
-//     });
-
-arrayCreator(numArrays)
-
-
-// arrayCreator(numArrays).forEach(e => {
-//     rowCounter++
-//     if (rowCounter>9){
-//     console.log("Row " + (numArrays.indexOf(e)+1))
-//     uniqueDigits(e)
-//     }else {console.log("Column " + (numArrays.indexOf(e)+1))
-//     uniqueDigits(e)}
-// })
-
+//create the array of columns
+let newArray = arrayCreator(numArrays)
+//put the rows and columns in the same array
+let nineByNine = ([...numArrays,...newArray])
+//test each array for meeting the requirements
+nineByNine.forEach(e => {
+    rowCounter++
+    if (rowCounter<=9){
+    console.log("Row " + (nineByNine.indexOf(e)+1))
+    uniqueDigits(e)
+    }else {console.log("Column " + (nineByNine.indexOf(e)-8))
+    uniqueDigits(e)}
+})
