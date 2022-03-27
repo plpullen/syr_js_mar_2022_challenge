@@ -126,26 +126,48 @@ anArray.forEach(e => {
 
 
 //CREATE THE NEW ARRAYS
-const arrayCreator = inputArray => { //creating the arrays for the columns
-    columns = [...Array(9)].map(e => Array(0))
-    for(let i = 0; i < inputArray.length; i++){
-        for(let j = 0; j < inputArray[i].length; j++){
-            columns[j].push(inputArray[i][j]) 
-        }
+const matrixCreator = matrix => {
+    let newMatrix = []
+    for(let i = 0; i < matrix.length; i++){
+        const columnsArray = matrix.filter(row => row[i])//this creates an array called columns of all the row indexes
+        newMatrix = [...matrix, ...columnsArray] //surprised that column returns an array of arrays
     }
-    return columns
+    return(newMatrix)
 }
 
+// matrixCreator(matrixData) //this is the first iteration for creating the arrays with nested loops
+// const arrayCreator = inputArray => { //creating the arrays for the columns
+//     columns = [...Array(9)].map(e => Array(0))
+//     for(let i = 0; i < inputArray.length; i++){
+//         for(let j = 0; j < inputArray[i].length; j++){
+//             columns[j].push(inputArray[i][j]) 
+//         }
+//     }
+//     return columns
+// }
+
+
+
 //create the array of columns
-let newArray = arrayCreator(numArrays)
+//let newArray = arrayCreator(numArrays)
+const newArray = matrixCreator(numArrays)
 //put the rows and columns in the same array
-let nineByNine = ([...numArrays,...newArray])
+//let nineByNine = ([...numArrays,...newArray]) //used this to combine arrays when i used the nested for loops previously
 //test each array for meeting the requirements
-nineByNine.forEach(e => {
+newArray.forEach(e => {
     rowCounter++
     if (rowCounter<=9){
-    console.log("Row " + (nineByNine.indexOf(e)+1))
+    console.log("Row " + (newArray.indexOf(e)+1))
     uniqueDigits(e)
-    }else {console.log("Column " + (nineByNine.indexOf(e)-8))
+    }else {console.log("Column " + (newArray.indexOf(e)+1))
     uniqueDigits(e)}
 })
+
+//HARD - CHECK THAT THE SAME TEST ARE PASSED FOR EACH 3X3 GRID WITHIN THE 9X9
+//should make each nonet an array or should I make them arrays of arrays?
+
+
+
+
+
+
