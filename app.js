@@ -37,7 +37,7 @@ let counter2 = 0
 let rowCounter = 0
 let columns
 
-//EASY - all tests wrapped into 1 function call
+//EASY - ALL TESTS WRAPPED INTO 1 FUNCTION CALL
 function uniqueDigits(someArray){
 
 
@@ -79,15 +79,15 @@ counter2=0
 //uniqueDigits(numArray)
 
 const numArrays = [
-    [1,2,3,4,5,6,7,8,9],
-    [2,3,4,5,6,7,8,9,1],
-    [3,4,5,6,7,8,9,1,2],
-    [4,5,6,7,8,9,1,2,3],
-    [5,6,7,8,9,1,2,3,4],
-    [6,7,8,9,1,2,3,4,5],
-    [7,8,9,1,2,3,4,5,6],
-    [8,9,1,2,3,4,5,6,7],
-    [9,1,2,3,4,5,6,7,8],
+    [5,3,4,6,7,8,9,1,2],
+    [6,7,2,1,9,5,3,4,8],
+    [1,9,8,3,4,2,5,6,7],
+    [8,5,9,7,6,1,4,2,3],
+    [4,2,6,8,5,3,7,9,1],
+    [7,1,3,9,2,4,8,5,6],
+    [9,6,1,5,3,7,2,8,4],
+    [2,8,7,4,1,9,6,3,5],
+    [3,4,5,2,8,6,1,7,9],
 ]
 
 //Brainstorming tests for Medium
@@ -125,12 +125,54 @@ anArray.forEach(e => {
 //make newArray.length=9
 
 
-//CREATE THE NEW ARRAYS
+//CREATE THE ARRAY OF SQUARES
+const squareArrayCreator = inputArray => { //creating the arrays for the columns
+    squares = [...Array(9)].map(e => Array(0))
+    for(let i = 0; i < inputArray.length; i++){
+          for(let j = 0; j < inputArray[i].length; j++){
+            let element = inputArray[i][j]
+            if (i<3){
+                if(j<3){
+                    squares[0].push(element)
+                } else if (j<6){
+                    squares[1].push(element)
+                } else {
+                    squares[2].push(element)
+                }
+    
+            } else if (i<6){
+                if(j<3){
+                    squares[3].push(element)
+                } else if (j<6){
+                    squares[4].push(element)
+                } else {
+                    squares[5].push(element)
+                }
+    
+            } else {
+                if(j<3){
+                    squares[6].push(element)
+                } else if (j<6){
+                    squares[7].push(element)
+                } else {
+                    squares[8].push(element)
+                }
+    
+            }
+        }
+    }
+    return squares
+}
+
+let squaresArray = squareArrayCreator(numArrays)
+console.log(squaresArray)
+
+//FUNCTION TO CREATE THE COLUMN ARRAYS + THE FULL/FINAL ARRAYS
 const matrixCreator = matrix => {
     let newMatrix = []
     for(let i = 0; i < matrix.length; i++){
         const columnsArray = matrix.filter(row => row[i])//this creates an array called columns of all the row indexes
-        newMatrix = [...matrix, ...columnsArray] //surprised that column returns an array of arrays
+        newMatrix = [...matrix,...columnsArray,...squaresArray] //surprised that column returns an array of arrays
     }
     return(newMatrix)
 }
@@ -148,19 +190,25 @@ const matrixCreator = matrix => {
 
 
 
+//CREATE THE FULL ARRAY OF ARRAYS
 //create the array of columns
 //let newArray = arrayCreator(numArrays)
-const newArray = matrixCreator(numArrays)
+const fullArray = matrixCreator(numArrays)
 //put the rows and columns in the same array
 //let nineByNine = ([...numArrays,...newArray]) //used this to combine arrays when i used the nested for loops previously
 //test each array for meeting the requirements
-newArray.forEach(e => {
+fullArray.forEach(e => {
     rowCounter++
     if (rowCounter<=9){
-    console.log("Row " + (newArray.indexOf(e)+1))
-    uniqueDigits(e)
-    }else {console.log("Column " + (newArray.indexOf(e)+1))
-    uniqueDigits(e)}
+        console.log("Row " + (fullArray.indexOf(e)+1))
+        uniqueDigits(e)
+    } else if (rowCounter<= 18){
+        console.log("Column " + (fullArray.indexOf(e)+1))
+        uniqueDigits(e)
+    } else {
+        console.log("Square " + (fullArray.indexOf(e)+1))
+        uniqueDigits(e)
+}
 })
 
 //HARD - CHECK THAT THE SAME TEST ARE PASSED FOR EACH 3X3 GRID WITHIN THE 9X9
