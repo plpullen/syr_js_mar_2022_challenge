@@ -36,16 +36,19 @@ const numArrays = [
 
 //EASY - ALL TESTS WRAPPED INTO 1 FUNCTION CALL
 function uniqueDigits(someArray){
+    let counter1 = 0
+    let counter2 = 0
+    function answer(thisSomeArray){
 
 //test 1 - that the array is 9 indexes long
-if (someArray.length != 9){
+if (thisSomeArray.length != 9){
     console.log ('Error - The array is an incorrect length.')
 } else {counter1++}
 
 //test that all the digits are from 1-9
 const test2 = (number) => number < 1 || number > 9
 //run test 2 and create output
-if (someArray.filter(test2).length > 0){
+if (thisSomeArray.filter(test2).length > 0){
    console.log("Error - Some numbers are out of range.")
 } else {counter1++}
 
@@ -60,7 +63,7 @@ for(let i = 0; i < input.length-1; i++){
 
 
 //run test 3
-test3(someArray);
+test3(thisSomeArray);
 
 //print success message if the array passed and increased counters appropriately
 if (counter1 === 2 && counter2 === 36){
@@ -69,20 +72,23 @@ if (counter1 === 2 && counter2 === 36){
 //reset counters
 counter1=0
 counter2=0
+    }
+
+    answer(someArray);
 }
 
 
 //MEDIUM - RUN THE TESTS ON EACH ARRAY IN THE ARRAY
 function sudokuRowChecker(anArray){
 anArray.forEach(e => {
-    console.log("Row " + (numArrays.indexOf(e)+1))
+    console.log("Row " + (anArray.indexOf(e)+1))
     uniqueDigits(e)
 })
 }
 
 
 //TO CREATE AND CHECK ALL ARRAYS AND REQUIREMENTS
-const sudokuChecker = (matrix) => {
+function sudokuChecker(matrix) {
 
 
 
@@ -124,7 +130,7 @@ const squareArrayCreator = inputArray => { //creating the arrays for the columns
     }
     return squares
 }
-let squaresArray = squareArrayCreator(numArrays)
+let squaresArray = squareArrayCreator(matrix)
 
 //FUNCTION TO CREATE THE COLUMN ARRAYS + THE FULL/FINAL ARRAYS
 const matrixCreator = matrix => {
@@ -137,9 +143,10 @@ const matrixCreator = matrix => {
 }
 
 //CREATE THE FULL ARRAY OF ARRAYS
-const fullArray = matrixCreator(numArrays)
+const fullArray = matrixCreator(matrix)
 
 //TEST EACH ARRAY FOR VALIDITY
+let rowCounter = 0
 fullArray.forEach(e => {
     rowCounter++
     if (rowCounter<=9){
